@@ -1,5 +1,6 @@
 using Api_RecursosHidricos.Models;
 using Api_RecursosHidricos.Services;
+using Api_RecursosHidricos.Services.Impl;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api_RecursosHidricos.Controllers
@@ -11,20 +12,21 @@ namespace Api_RecursosHidricos.Controllers
 
         private readonly ILogger<RecursosHidricosController> _logger;
 
-        private readonly RecursosHidricosService _recursosHidricosService;
+        private readonly IRecursosHidricosService _recursosHidricosService;
 
-        public RecursosHidricosController(ILogger<RecursosHidricosController> logger, RecursosHidricosService recursosHidricosService)
+        public RecursosHidricosController(ILogger<RecursosHidricosController> logger, IRecursosHidricosService recursosHidricosService)
         {
             _logger = logger;
             _recursosHidricosService = recursosHidricosService;
         }
 
         [HttpGet(Name = "GetRecursosHidricos")]
-        public ActionResult<IEnumerable<RecursosHidricos>> GetAll()
+        public async Task<ActionResult<IEnumerable<RecursoHidrico>>> GetAll()
         {
             try
             {
-                return Ok(_recursosHidricosService.GetAll());
+                var recursoHidrico = await _recursosHidricosService.GetAllAsync();
+                return Ok(recursoHidrico);
             }
             catch (Exception ex)
             {
@@ -34,11 +36,11 @@ namespace Api_RecursosHidricos.Controllers
         }
 
         [HttpGet("{id}", Name = "GetRecursoHidrico")]
-        public ActionResult<RecursosHidricos> GetById(int id)
+        public async Task<ActionResult<RecursoHidrico>> GetById(int id)
         {
             try
             {
-                var recursoHidrico = _recursosHidricosService.GetById(id);
+                var recursoHidrico = await _recursosHidricosService.GetByIdAsync(id);
                 if (recursoHidrico == null)
                 {
                     return NotFound();
@@ -54,11 +56,12 @@ namespace Api_RecursosHidricos.Controllers
 
         [HttpPost(Name = "CreateRecursoHidrico")]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<RecursosHidricos> Create([FromBody] RecursosHidricos recursoHidrico)
+        public async Task<ActionResult<RecursoHidrico>> Create([FromBody] RecursoHidrico recursoHidrico)
         {
             try
             {
-                return Ok(_recursosHidricosService.Create(recursoHidrico));
+                var recurso = await _recursosHidricosService.AddAsync(recursoHidrico);
+                return Ok(recurso);
             }
             catch (Exception ex)
             {
@@ -68,11 +71,12 @@ namespace Api_RecursosHidricos.Controllers
         }
 
         [HttpPut(Name = "UpdateRecursoHidrico")]
-        public ActionResult<RecursosHidricos> Update([FromBody] RecursosHidricos recursoHidrico)
+        public async Task<ActionResult<RecursoHidrico>> Update([FromBody] RecursoHidrico recursoHidrico)
         {
             try
             {
-                return Ok(_recursosHidricosService.Update(recursoHidrico));
+                var recurso = await _recursosHidricosService.UpdateAsync(recursoHidrico);
+                return Ok(recurso);
             }
             catch (Exception ex)
             {
@@ -82,11 +86,11 @@ namespace Api_RecursosHidricos.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteRecursoHidrico")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                _recursosHidricosService.Delete(id);
+                await _recursosHidricosService.DeleteAsync(id);
                 return Ok();
             }
             catch (Exception ex)

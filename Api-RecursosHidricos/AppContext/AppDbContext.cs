@@ -8,11 +8,11 @@ namespace Api_RecursosHidricos.AppContext{
         {
         }
 
-        public DbSet<RecursosHidricos> RecursosHidricos { get; set; }
+        public DbSet<RecursoHidrico> RecursoHidrico { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RecursosHidricos>().ToTable("RecursosHidricos");
+            modelBuilder.Entity<RecursoHidrico>().ToTable("recurso_hidrico");
         }
     }
 }
