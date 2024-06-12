@@ -20,6 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utils/" />
+    <Folder Include="Atributos\" />
+    <Folder Include="Politicas\" />
+    <Folder Include="Politicas\Requerimientos\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Atributos\" />
+    <None Remove="Politicas\" />
+    <None Remove="Politicas\Requerimientos\" />
+  </ItemGroup>
 </Project>

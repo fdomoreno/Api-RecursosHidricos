@@ -2,6 +2,7 @@ using Api_RecursosHidricos.Models;
 using Api_RecursosHidricos.Services;
 using Api_RecursosHidricos.Services.Impl;
 using Microsoft.AspNetCore.Mvc;
+using Api_RecursosHidricos.Atributos;
 
 namespace Api_RecursosHidricos.Controllers
 {
@@ -21,6 +22,7 @@ namespace Api_RecursosHidricos.Controllers
         }
 
         [HttpGet(Name = "GetRecursosHidricos")]
+        [DAutorizar("RecursosHidricos.GetAll")]
         public async Task<ActionResult<IEnumerable<RecursoHidrico>>> GetAll()
         {
             try
